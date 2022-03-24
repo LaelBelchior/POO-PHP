@@ -2,17 +2,14 @@
 
 class Conta{
 
-    private string $nome;
-    private string $cpf;
+    private Titular $titular;
     private float $saldo;
 
     private static $numeroDeContas = 0;
 
-    public function __construct(string $nomeTitular, string $cpfTitular)
+    public function __construct(Titular $titular)
     {
-        $this -> validaNome($nomeTitular);
-        $this -> nome = $nomeTitular;
-        $this -> cpf = $cpfTitular;
+        $this -> titular = $titular;
         $this -> saldo = 0;
 
         self::$numeroDeContas++;
@@ -21,34 +18,6 @@ class Conta{
     public function __destruct()
     {
         self::$numeroDeContas--;
-    }
-
-    private function validaNome(string $nomeTitular)
-    {
-        if(strlen($nomeTitular) <= 5){
-            echo "Nome precisa ter pelo menos cinco caracteres.";
-            exit();
-        }
-    }
-
-    public function recuperaNome(): string
-    {
-        return $this -> nome;
-    }
-
-    public function recuperaCpf(): string
-    {
-        return $this -> cpf;
-    }
-
-    public function recuperaSaldo(): float
-    {
-        return $this -> saldo;
-    }
-
-    public function recuperaNumeroContas(): int
-    {
-        return self::$numeroDeContas;
     }
 
     public function depositar(float $valorDepositado): void
@@ -81,6 +50,26 @@ class Conta{
 
         $this -> sacar($valorTransferencia);
         $contaTransferencia -> depositar($valorTransferencia);
+    }
+
+    public function recuperaNomeTitular(): string
+    {
+        return $this -> titular -> recuperaNome();
+    }
+
+    public function recuperaCpfTitular(): string
+    {
+        return $this -> titular -> recuperaCpf();
+    }
+
+    public function recuperaSaldo(): float
+    {
+        return $this -> saldo;
+    }
+
+    public function recuperaNumeroContas(): int
+    {
+        return self::$numeroDeContas;
     }
 
 }
